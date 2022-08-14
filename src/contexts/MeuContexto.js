@@ -1,6 +1,6 @@
-import React, {createContext, useState} from "react";
+import React, {createContext, useEffect, useState} from "react";
 import { Alert, ToastAndroid } from "react-native";
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const MeuContexto = React.createContext({})
 
@@ -10,6 +10,15 @@ function ContextProvider({children}){
         [
         ]
     )
+
+    useEffect(()=>{
+        async function carregar(){
+           const resultado = await AsyncStorage.getItem('anotacoes')
+           setNotas(JSON.parse(resultado))
+        }
+
+        carregar()
+    },[])
     
 
     function salvarAnotacao(nota){
@@ -29,7 +38,7 @@ function ContextProvider({children}){
 
         }else{
             if(notas.length > 0){
-                nota.id = notas[notas.length-1].id++
+                nota.id = notas[notas.length-1].id + 1
             }else{
                 nota.id = 1
             }
@@ -45,14 +54,22 @@ function ContextProvider({children}){
               );
             
         }
-
-        
-       
-        
-        
+        persistir()
         
 
     }
+    const persistir = async () => {
+        try {  
+          await AsyncStorage.setItem('anotacoes', JSON.stringify(notas))
+        } catch (e) {
+          console.log(e)
+        }
+      }
+
+
+      
+
+
 
     function deletar(id){
         Alert.alert(
@@ -77,14 +94,12 @@ function ContextProvider({children}){
 
               } }
             ]
-          );
+          )
+
+          persistir()
+    
         
     }
-
-    function editar(){
-
-    }
-
 
 
     return(

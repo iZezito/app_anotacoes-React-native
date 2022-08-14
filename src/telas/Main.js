@@ -11,7 +11,7 @@ import { MeuContexto } from '../contexts/MeuContexto';
 
 
 export default function Main() {
-    const {notas} = useContext(MeuContexto)
+    const {notas, setEdit} = useContext(MeuContexto)
     const navigation = useNavigation()
 
 
@@ -21,6 +21,8 @@ export default function Main() {
     useEffect(()=>{
         setAnotacoes(notas)
     },[notas])
+
+   
 
 
  return (
@@ -32,7 +34,10 @@ export default function Main() {
     renderItem={({item}) => (<Anotacao {...item}/>)}
     />) : (<Text style={{color: '#fff', alignSelf: 'center'}}>Nenhuma anotação</Text>)}
    
-    <TouchableOpacity style={estilos.botao} onPress={() => navigation.navigate('cadastrar')}>
+    <TouchableOpacity style={estilos.botao} onPress={() => { 
+        setEdit({}) 
+        navigation.navigate('cadastrar')
+        }}>
         <Icon name='plus' size={21} color={'black'}/>
     </TouchableOpacity>
 

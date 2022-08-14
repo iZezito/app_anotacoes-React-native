@@ -6,9 +6,12 @@ import { useNavigation } from '@react-navigation/native';
 import { MeuContexto } from '../contexts/MeuContexto';
 
 export default function Cadastrar() {
+   
+
+
     const navigation = useNavigation()
-    const {salvarAnotacao} = useContext(MeuContexto)
-    const [anotacao, setAnotacao] = useState({id: '', titulo: '', conteudo: ''})
+    const {salvarAnotacao, notaEdit} = useContext(MeuContexto)
+    const [anotacao, setAnotacao] = useState(notaEdit ? notaEdit : {id: '', titulo: '', conteudo: ''})
 
 
     function handleSave(){

@@ -2,18 +2,26 @@ import React, {useContext} from 'react';
 import { View, Text, StyleSheet, TouchableWithoutFeedback, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { MeuContexto } from '../contexts/MeuContexto';
+import { useNavigation } from '@react-navigation/native';
 
-export default function Anotacao({id, titulo, anotacao}) {
-    const {deletar} = useContext(MeuContexto)
+export default function Anotacao({id, titulo, conteudo}) {
+    const navigation = useNavigation()
+    const {deletar, setEdit} = useContext(MeuContexto)
 
     function handleDelete(){
         deletar(id)
     }
 
+    function handleEdit(){
+        setEdit({id,titulo,conteudo})
+        navigation.navigate('cadastrar')
+        
+    }
+
 
 
  return (
-    <TouchableWithoutFeedback onLongPress={handleDelete}>
+    <TouchableWithoutFeedback onLongPress={handleDelete} onPress={handleEdit}>
     <View style={estilos.container}>
         
         <Text style={estilos.texto}>{titulo}</Text>

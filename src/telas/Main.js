@@ -26,11 +26,12 @@ export default function Main() {
  return (
    <SafeAreaView style={estilos.container}>
     <Header/>
-    <FlatList
+    {anotacoes.length > 0 ? ( <FlatList
     data={anotacoes}
     keyExtractor={item => String(item.id)}
     renderItem={({item}) => (<Anotacao {...item}/>)}
-    />
+    />) : (<Text style={{color: '#fff', alignSelf: 'center'}}>Nenhuma anotação</Text>)}
+   
     <TouchableOpacity style={estilos.botao} onPress={() => navigation.navigate('cadastrar')}>
         <Icon name='plus' size={21} color={'black'}/>
     </TouchableOpacity>
@@ -42,6 +43,7 @@ export default function Main() {
 
 const estilos = StyleSheet.create({
     container:{
+        
         flex: 1,
         backgroundColor: '#000000',
     },texto:{
